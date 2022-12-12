@@ -9,8 +9,7 @@ int ESTADO_SENSOR=0;
  
 
 void AcionaMotor(int motor, int LigaDesliga){
-       if(motor > 5 and motor < 26){
-        digitalWrite(motor, LigaDesliga);
+      digitalWrite(motor, LigaDesliga);
       Serial.print("MOTOR: ");  
       Serial.print(motor); 
       if(LigaDesliga==1){
@@ -18,8 +17,8 @@ void AcionaMotor(int motor, int LigaDesliga){
       }else{
        Serial.println(" Desligado"); 
         }
-     }      
- }
+}      
+
 
 void iniciaTudo(){
   NUMERO_MOTOR=0;
@@ -53,8 +52,9 @@ void loop(){
        break;
      }
    }while(true);
-   AcionaMotor(NUMERO_MOTOR,HIGH);
-     do{  
+   if(NUMERO_MOTOR > 5 and NUMERO_MOTOR <= numero_motores+5){
+      AcionaMotor(NUMERO_MOTOR,HIGH);
+      do{  
        for(int i=0; i<numero_sensores; i++) { 
         sensores_status_leitura=digitalRead(i);
         Serial.println(i);   
@@ -72,4 +72,5 @@ void loop(){
       delay(500);
       Serial.flush();
       }
+   }
  }
