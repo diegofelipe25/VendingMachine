@@ -30,32 +30,13 @@ void iniciaTudo(){
 void setup(){
 Serial.begin(9600);
 // pinos sensores
-pinMode(2, INPUT);
-pinMode(3, INPUT);
-pinMode(4, INPUT);
-pinMode(5, INPUT);
-
+for (int i=2;i<=numero_sensores+1;i++){
+  pinMode(i, INPUT);
+}
 // pinos motores 
-pinMode(6, OUTPUT);
-pinMode(7, OUTPUT);
-pinMode(8, OUTPUT);
-pinMode(9, OUTPUT);
-pinMode(10, OUTPUT);
-pinMode(11, OUTPUT);
-pinMode(12, OUTPUT);
-pinMode(13, OUTPUT);
-pinMode(14, OUTPUT);
-pinMode(15, OUTPUT);
-pinMode(16, OUTPUT);
-pinMode(17, OUTPUT);
-pinMode(18, OUTPUT);
-pinMode(19, OUTPUT);
-pinMode(20, OUTPUT);
-pinMode(21, OUTPUT);
-pinMode(22, OUTPUT);
-pinMode(23, OUTPUT);
-pinMode(24, OUTPUT);
-pinMode(25, OUTPUT);
+for (int i=6;i<=numero_motores+5;i++){
+  pinMode(i, OUTPUT);
+}
 }
 
 void loop(){   
