@@ -27,11 +27,13 @@ void iniciaTudo(){ //zera as variaveiveis antes de dar um novo loop
  
 void setup(){
 Serial.begin(9600);
-// pinos sensores
+// pinos sensores 
+//sensor manda sinal 1 continuo, ou seja 5V  se detectar algo mando 0v ou seja sinal 1 ate o objeto sair da frente do sensor
 for (int i=2;i<=numero_sensores+1;i++){
   pinMode(i, INPUT); // pino 2 ao 4 serao sensores, 2 sensores 
 }
-// pinos motores 
+//pinos motores 
+//manda corrente para ligar o motor e quando para de mandar o motor para de funcionar
 for (int i=8;i<=numero_motores+7;i++){
   pinMode(i, OUTPUT); // pino 8 ao 47 serao motores, 40 motores
 }
@@ -39,7 +41,7 @@ for (int i=8;i<=numero_motores+7;i++){
 
 void loop(){   
    for(int i=0; i<numero_sensores; i++) { //le os sensores a primeira vez antes de pedir o numero do motor
-    sensores[i]=digitalRead(i+2); //como nao vai detectar nada, os sensores  da lista serao carregados com sinal 1, ou seja 5V
+    sensores[i]=digitalRead(i+2);
   }
    Serial.println("\n");
    Serial.println("Digite a porta do motor: ");
@@ -60,9 +62,9 @@ void loop(){
         // Serial.println(i);   
         // Serial.println(sensores_status_leitura); 
         Serial.println("Girando o motor");
-        if(sensores[i]!=digitalRead(i+2)){ //compara com a lista de sensores carregadar no inicio do loop... 
-          Serial.println("\nDetectou algo."); //se algum sensor da lista detectar algo, essa lista vai ser diferente da primeira carregada...
-          ESTADO_SENSOR=1; 
+        if(sensores[i]!=digitalRead(i+2)){ //fica comparando sensor por sensor com a lista de sensores carregadar no inicio do loop... 
+          Serial.println("\nDetectou algo."); //se algum sensor da lista detectar algo manda 0V e sinal 0, essa lista vai ser diferente da primeira carregada...
+          ESTADO_SENSOR=1; //muda o estado do sensor
           break; //sai do for
          }
        }
@@ -70,11 +72,11 @@ void loop(){
    
      if(ESTADO_SENSOR==1){ //se detectar algo vai entrar aqui e vai parar o motor
       AcionaMotor(NUMERO_MOTOR,LOW); //chama o metodo de acionar motor e desliga
-      iniciaTudo();
+      iniciaTudo(); //zera as variaveis para o estado inicial
       delay(500);
       Serial.flush(); //limpa o cache da serial
       }
    }else{
-      Serial.println("Motor nao cadastrado."); //se o motor nao estiver cadastrado printa isso e pede o motor novamente
+      Serial.println("Motor nao cadastrado."); //se o motor nao estiver cadastrado na lista printa isso e pede o motor novamente
    }
  }
