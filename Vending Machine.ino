@@ -22,7 +22,7 @@ void AcionaMotor(int motor, int LigaDesliga){
 void iniciaTudo(){
   NUMERO_MOTOR=0;
   ESTADO_SENSOR=0;
-  Serial.println("Resetou variaveis");
+  Serial.println("\nResetou variaveis");
 }
  
 void setup(){
@@ -43,7 +43,7 @@ void loop(){
       sensores[i]=digitalRead(i+2);
       }
    Serial.println("\n");
-   Serial.println("Digite o motor: ");
+   Serial.println("Digite a porta do motor: ");
    delay(1500); 
    do{
      if(Serial.available()){
@@ -57,13 +57,14 @@ void loop(){
       do{  
        for(int i=0; i<numero_sensores; i++) { 
         sensores_status_leitura=digitalRead(i);
-        Serial.println(i);   
-        Serial.println(sensores_status_leitura); 
-       if(sensores[i]!=digitalRead(i+2)){
-        Serial.println("Detectou algo.");
-        ESTADO_SENSOR=1;
-        break;
-          }
+        // Serial.println(i);   
+        // Serial.println(sensores_status_leitura); 
+        Serial.println("Girando o motor");
+        if(sensores[i]!=digitalRead(i+2)){
+          Serial.println("\nDetectou algo.");
+          ESTADO_SENSOR=1;
+          break;
+         }
        }
      }while(ESTADO_SENSOR==0);    
      if(ESTADO_SENSOR==1){
@@ -75,4 +76,5 @@ void loop(){
    }else{
       Serial.println("Motor nao cadastrado.");
    }
+   
  }
