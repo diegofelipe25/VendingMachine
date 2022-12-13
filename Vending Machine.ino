@@ -8,7 +8,7 @@ int sensores_status_leitura=1;
 int NUMERO_MOTOR=0;
 int ESTADO_SENSOR=0;
  
-void AcionaMotor(int motor, int LigaDesliga){
+void AcionaMotor(int motor, int LigaDesliga){ //metodo de liga/desligar os motores
       digitalWrite(motor, LigaDesliga);
       Serial.print("MOTOR: ");  
       Serial.print(motor); 
@@ -19,7 +19,7 @@ void AcionaMotor(int motor, int LigaDesliga){
       }
 }      
 
-void iniciaTudo(){
+void iniciaTudo(){ //zera as variaveiveis antes de dar um novo loop
   NUMERO_MOTOR=0;
   ESTADO_SENSOR=0;
   Serial.println("\nResetou variaveis");
@@ -38,43 +38,43 @@ for (int i=8;i<=numero_motores+7;i++){
 }
 
 void loop(){   
-   for(int i=0; i<numero_sensores; i++) {
-    sensores[i]=digitalRead(i+2);
+   for(int i=0; i<numero_sensores; i++) { //le os sensores a primeira vez antes de pedir o numero do motor
+    sensores[i]=digitalRead(i+2); //como nao vai detectar nada, os sensores  da lista serao carregados com sinal 1, ou seja 5V
   }
    Serial.println("\n");
    Serial.println("Digite a porta do motor: ");
    delay(1500); 
    do{
-     if(Serial.available()){
+     if(Serial.available()){ //se tiver alguma coisa na serial entra aqui
        NUMERO_MOTOR = Serial.parseInt();
-       Serial.read();
+       Serial.read(); //aqui é para nao pegar o ENTER 
        break;
      }
    }while(true);
-   if(NUMERO_MOTOR >= motores[0] and NUMERO_MOTOR <= numero_motores+7){
-      AcionaMotor(NUMERO_MOTOR,HIGH);
-    
+   if(NUMERO_MOTOR >= motores[0] and NUMERO_MOTOR <= numero_motores+7){ //verifica se o motor esta dentro da lista de motores
+      AcionaMotor(NUMERO_MOTOR,HIGH); //chama o metodo de acionar motor e liga
+
       do{  
        for(int i=0; i<numero_sensores; i++) { 
         //sensores_status_leitura=digitalRead(i);
         // Serial.println(i);   
         // Serial.println(sensores_status_leitura); 
         Serial.println("Girando o motor");
-        if(sensores[i]!=digitalRead(i+2)){
-          Serial.println("\nDetectou algo.");
-          ESTADO_SENSOR=1;
-          break;
+        if(sensores[i]!=digitalRead(i+2)){ //compara com a lista de sensores carregadar no inicio do loop... 
+          Serial.println("\nDetectou algo."); //se algum sensor da lista detectar algo, essa lista vai ser diferente da primeira carregada...
+          ESTADO_SENSOR=1; 
+          break; //sai do for
          }
        }
-     }while(ESTADO_SENSOR==0);    
+     }while(ESTADO_SENSOR==0);    // se detectar algo quebra o while e muda o estado do sensor
    
-     if(ESTADO_SENSOR==1){
-      AcionaMotor(NUMERO_MOTOR,LOW); 
+     if(ESTADO_SENSOR==1){ //se detectar algo vai entrar aqui e vai parar o motor
+      AcionaMotor(NUMERO_MOTOR,LOW); //chama o metodo de acionar motor e desliga
       iniciaTudo();
       delay(500);
-      Serial.flush();
+      Serial.flush(); //limpa o cache da serial
       }
    }else{
-      Serial.println("Motor nao cadastrado.");
+      Serial.println("Motor nao cadastrado."); //se o motor nao estiver cadastrado printa isso e pede o motor novamente
    }
  }
