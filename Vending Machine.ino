@@ -39,9 +39,9 @@ for (int i=8;i<=numero_motores+7;i++){
 }
 
 void loop(){   
-     for(int i=0; i<numero_sensores; i++) {
-      sensores[i]=digitalRead(i+2);
-      }
+   for(int i=0; i<numero_sensores; i++) {
+    sensores[i]=digitalRead(i+2);
+  }
    Serial.println("\n");
    Serial.println("Digite a porta do motor: ");
    delay(1500); 
@@ -76,5 +76,4 @@ void loop(){
    }else{
       Serial.println("Motor nao cadastrado.");
    }
-   
  }
